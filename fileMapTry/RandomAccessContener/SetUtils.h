@@ -6,7 +6,10 @@
 #include <tchar.h> 
 #include <stdio.h>
 #include <strsafe.h>
+#include <vector>
 #include <string>
+
+#include "FileDesc.h"
 
 using namespace std;
 
@@ -18,6 +21,6 @@ public:
 
 	static void concatStrings(LPCWSTR s1, LPCWSTR s2, LPCWSTR sep, TCHAR *to);
 	
-	void LoadFiles(LPCWSTR path);
+	static vector<FileDesc> LoadFiles(LPCWSTR path, LPCWSTR name);
 };
 

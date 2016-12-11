@@ -23,13 +23,11 @@ public:
 	{
 		if (this->sets.find(key) == this->sets.end()) 
 		{
-			TCHAR fname[MAX_PATH];
-			SetUtils::concatStrings(this->path, key, TEXT("\\"), fname);
-
-			sets[key] = new Set<T>(fname);
+			sets[key] = new Set<T>(path, key);
 		}
 
 		Set<T> *s = (Set<T>*)sets[key];
+
 
 		return (Set<T>&) *s;
 	}

@@ -48,7 +48,7 @@ int _tmain()
 	//Context *c = new Context("C:\\Temp");
 
 
-	Set<row>& s2 = c.get<row>(TEXT("products"));
+	Set<row>& s2 = c.get<row>(TEXT("product"));
 
 	Context *c2 = new Context(TEXT("C:\\Temp"));
 
