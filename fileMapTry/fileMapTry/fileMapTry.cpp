@@ -44,86 +44,40 @@ int _tmain()
 	HANDLE hMapFile;
 	row* pBuf;
 
-	Context c(TEXT("C:\\Temp"));// = new Context("C:\\Temp");
-	//Context *c = new Context("C:\\Temp");
+	Context c(TEXT("C:\\Temp"));
 
+	Set<row> product = c.get<row>(TEXT("product"));
+	Set<row> contact = c.get<row>(TEXT("contact"));
 
-	Set<row> s2 = c.get<row>(TEXT("product"));
+	row p1;
 
-	row x1 = s2[0];
-	row zx1 = s2[1];
+	p1.id = 1;
+	p1.lp = 0;
+	strcpy_s(p1.str1, "[(0)to jest testowy tekst str 1]");
+	strcpy_s(p1.str6, "[(0)to jest testowy tekst str 6]");
 
-	row x02;
-	x02.id = 137447;
-	x02.lp = 137447;
-	strcpy_s(x02.str1, "to jest tekst 1 [137447]");
-	strcpy_s(x02.str2, "to jest tekst 2 [137447]");
-	strcpy_s(x02.str3, "to jest tekst 3 [137447]");
+	product[0] = p1;
 
-	row x2 = s2[137447];
-	s2[137447] = x02;
+	p1.id = 2;
+	p1.lp = 1;
+	strcpy_s(p1.str1, "[(1)to jest testowy tekst str 1]");
+	strcpy_s(p1.str6, "[(1)to jest testowy tekst str 6]");
 
-	int rx02 = x2.id;
+	product[1] = p1;
 
-	row cp_x2 = s2[137447];
+	p1.id = 137448;
+	p1.lp = 137447;
+	strcpy_s(p1.str1, "[(137447)to jest testowy tekst str 1]");
+	strcpy_s(p1.str6, "[(137447)to jest testowy tekst str 6]");
 
-	row x03;
-	x03.id = 137448;
-	x03.lp = 137448;
-	strcpy_s(x03.str1, "to jest tekst 1 [137448]");
-	strcpy_s(x03.str2, "to jest tekst 2 [137448]");
-	strcpy_s(x03.str3, "to jest tekst 3 [137448]");
+	product[137447] = p1;
 
-	row x3 = s2[137448];
-	s2[137448] = x03;
+	p1.id = 137449;
+	p1.lp = 137448;
+	strcpy_s(p1.str1, "[(137447)to jest testowy tekst str 1]");
+	strcpy_s(p1.str6, "[(137447)to jest testowy tekst str 6]");
 
-	int rx03 = x3.id;
-
-	row cp_x3 = s2[137447];
-
-
-	Context *c2 = new Context(TEXT("C:\\Temp"));
-
-	Set<row>& s4 = c2->get<row>(TEXT("contact"));
-
-	row cp_x4 = s4[137447];
-	row cp_x5 = s4[137448];
-
-	x02.id = -137447;
-	x02.lp = -137447;
-	strcpy_s(x02.str1, "!! to jest tekst 1 [137447]");
-	strcpy_s(x02.str2, "!! to jest tekst 2 [137447]");
-	strcpy_s(x02.str3, "!! to jest tekst 3 [137447]");
-
-	s4[137447] = x02;
-	row cp_x6 = s4[137447];
-	row cp_x7 = s4[137448];
-
-
-
-
-	Set<row> *s5 = &c2->get<row>(TEXT("products"));
-
-	Set<row> s6 = c2->get<row>(TEXT("products"));
-
-
-	//hMapFile = OpenFileMapping(
-	//	FILE_MAP_ALL_ACCESS,   // read/write access
-	//	FALSE,                 // do not inherit the name
-	//	szName);               // name of mapping object
-
-	//Circle *c = new Circle(5.0);
-
-	//c->move(5.8, 3.0);
-	//c->area();
-
-
-	//char *p;
-
-	//allocm(p, 4);
-
-	//p[1] = 'D';
-	//p[32] = 'F';
+	product[137448] = p1;
 
 
 
