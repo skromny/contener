@@ -34,6 +34,7 @@ vector<FileDesc> SetUtils::LoadFiles(LPCWSTR path, LPCWSTR name)
 	HANDLE hFind;
 	WIN32_FIND_DATA data;
 	TCHAR szDir[MAX_PATH];
+	vector<FileDesc> result;
 
 	StringCchCopy(szDir, MAX_PATH, path);
 	StringCchCat(szDir, MAX_PATH, TEXT("\\"));
@@ -43,7 +44,6 @@ vector<FileDesc> SetUtils::LoadFiles(LPCWSTR path, LPCWSTR name)
 	hFind = FindFirstFile(szDir, &data);
 	if (hFind != INVALID_HANDLE_VALUE) 
 	{
-		vector<FileDesc> result;
 		do {
 
 			_tprintf(TEXT("  %s  \n"), data.cFileName);
@@ -56,9 +56,8 @@ vector<FileDesc> SetUtils::LoadFiles(LPCWSTR path, LPCWSTR name)
 	
 		FindClose(hFind);
 
-		return result;
 	}
 
-	return vector<FileDesc>();
+	return result;
 }
 

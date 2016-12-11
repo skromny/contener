@@ -48,11 +48,59 @@ int _tmain()
 	//Context *c = new Context("C:\\Temp");
 
 
-	Set<row>& s2 = c.get<row>(TEXT("product"));
+	Set<row> s2 = c.get<row>(TEXT("product"));
+
+	row x1 = s2[0];
+	row zx1 = s2[1];
+
+	row x02;
+	x02.id = 137447;
+	x02.lp = 137447;
+	strcpy_s(x02.str1, "to jest tekst 1 [137447]");
+	strcpy_s(x02.str2, "to jest tekst 2 [137447]");
+	strcpy_s(x02.str3, "to jest tekst 3 [137447]");
+
+	row x2 = s2[137447];
+	s2[137447] = x02;
+
+	int rx02 = x2.id;
+
+	row cp_x2 = s2[137447];
+
+	row x03;
+	x03.id = 137448;
+	x03.lp = 137448;
+	strcpy_s(x03.str1, "to jest tekst 1 [137448]");
+	strcpy_s(x03.str2, "to jest tekst 2 [137448]");
+	strcpy_s(x03.str3, "to jest tekst 3 [137448]");
+
+	row x3 = s2[137448];
+	s2[137448] = x03;
+
+	int rx03 = x3.id;
+
+	row cp_x3 = s2[137447];
+
 
 	Context *c2 = new Context(TEXT("C:\\Temp"));
 
-	Set<row>& s4 = c2->get<row>(TEXT("products"));
+	Set<row>& s4 = c2->get<row>(TEXT("contact"));
+
+	row cp_x4 = s4[137447];
+	row cp_x5 = s4[137448];
+
+	x02.id = -137447;
+	x02.lp = -137447;
+	strcpy_s(x02.str1, "!! to jest tekst 1 [137447]");
+	strcpy_s(x02.str2, "!! to jest tekst 2 [137447]");
+	strcpy_s(x02.str3, "!! to jest tekst 3 [137447]");
+
+	s4[137447] = x02;
+	row cp_x6 = s4[137447];
+	row cp_x7 = s4[137448];
+
+
+
 
 	Set<row> *s5 = &c2->get<row>(TEXT("products"));
 

@@ -12,7 +12,7 @@ FileDesc::FileDesc(LPCWSTR path)
 		, NULL
 	);
 
-	this->hMapFile = CreateFileMapping(hFile, NULL, PAGE_READWRITE, 0, BUF_SIZE, (LPCWSTR)"FILEMEM");
+	this->hMapFile = CreateFileMapping(hFile, NULL, PAGE_READWRITE, 0, BUF_SIZE, NULL);
 
 	this->pBuffer = MapViewOfFile(hMapFile, // handle to map object
 		FILE_MAP_ALL_ACCESS,  // read/write permission

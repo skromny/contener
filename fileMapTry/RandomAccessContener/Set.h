@@ -17,9 +17,7 @@ public:
 		
 		files = SetUtils::LoadFiles(path, name);
 
-		//for (vector<FileDesc>::iterator it = files.begin(); it != files.end(); ++it)
-		//	pBuffers.push_back((T*)(*it).GetBuffer());
-
+		//137447
 		maxCount = BUF_SIZE / sizeof(T);
 	}
 	virtual ~Set() {
@@ -27,11 +25,21 @@ public:
 
 	T& operator[] (const int index)
 	{
-		int i = index / maxCount;
+		return GetItem(index);
+	}
 
-		T* buffer = (T*)files[i];
+	inline T& GetItem(const int index)
+	{
+		T* buffer = (T*)files[index / maxCount].GetBuffer();
 
 		return buffer[index % maxCount];
+	}
+
+	void SetItem(const int index, T& item)
+	{
+		T* buffer = (T*)files[index / maxCount].GetBuffer();
+
+		memcpy(buffer[index % maxCount], item, sizeof(T));
 	}
 
 private:
@@ -41,6 +49,5 @@ private:
 	int maxCount;
 
 	vector<FileDesc> files;
-	//vector<T*> pBuffers;
 };
 
