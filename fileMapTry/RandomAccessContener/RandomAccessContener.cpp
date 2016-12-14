@@ -11,4 +11,16 @@
 
 #include "stdafx.h"
 
+#include <cstdio>
+#include "rac.h"
 
+__declspec(dllexport) void __cdecl Function1(void) 
+{
+	Context c = CONTEXTS[0];
+	wprintf(L"function1");
+}
+
+__declspec(dllexport) void __cdecl Function2(void)
+{
+	wprintf(L"function2");
+}

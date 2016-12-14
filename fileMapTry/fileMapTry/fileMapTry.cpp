@@ -9,6 +9,7 @@
 
 #include "Set.h"
 #include "Context.h"
+#include "rac.h"
 
 #pragma comment(lib, "user32.lib")
 
@@ -40,6 +41,10 @@ void allocm(char* &p, int size) {
 
 int _tmain()
 {
+
+	Function1();
+	Function2();
+
 	HANDLE hFile;
 	HANDLE hMapFile;
 	row* pBuf;

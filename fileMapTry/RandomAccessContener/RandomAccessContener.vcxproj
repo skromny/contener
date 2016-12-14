@@ -147,10 +147,11 @@
   <ItemGroup>
     <ClInclude Include="Context.h" />
     <ClInclude Include="FileDesc.h" />
-    <ClInclude Include="ISet.h" />
+    <ClInclude Include="rac.h" />
     <ClInclude Include="Set.h" />
     <ClInclude Include="SetUtils.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StdRowDefs.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -170,7 +171,6 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="FileDesc.cpp" />
-    <ClCompile Include="ISet.cpp" />
     <ClCompile Include="RandomAccessContener.cpp" />
     <ClCompile Include="Set.cpp" />
     <ClCompile Include="SetUtils.cpp" />

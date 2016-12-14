@@ -1,7 +1,6 @@
 #pragma once
 
 #include <map>
-#include "ISet.h"
 #include "SetUtils.h"
 #include "Set.h"
 
