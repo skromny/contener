@@ -88,7 +88,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\RandomAccessContener;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\RandomAccessContainer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -160,7 +160,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RandomAccessContener\RandomAccessContener.vcxproj">
+    <ProjectReference Include="..\RandomAccessContainer\RandomAccessContainer.vcxproj">
       <Project>{4839a07b-fbc6-4780-9537-ef68b890d105}</Project>
     </ProjectReference>
   </ItemGroup>

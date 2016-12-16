@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fileMapTry", "fileMapTry\fi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32Project1", "Win32Project1\Win32Project1.vcxproj", "{86068857-B52E-41CF-B259-3604DFFA77FD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RandomAccessContener", "RandomAccessContener\RandomAccessContener.vcxproj", "{4839A07B-FBC6-4780-9537-EF68B890D105}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RandomAccessContener", "RandomAccessContainer\RandomAccessContainer.vcxproj", "{4839A07B-FBC6-4780-9537-EF68B890D105}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
