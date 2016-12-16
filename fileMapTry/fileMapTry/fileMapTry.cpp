@@ -10,6 +10,7 @@
 #include "Set.h"
 #include "Context.h"
 #include "rac.h"
+#include <time.h>
 
 #pragma comment(lib, "user32.lib")
 
@@ -31,19 +32,15 @@ struct row
 	char str6[8192];
 };
 
-void allocm(char* &p, int size) {
-
-	p = new char[size];
-	p[size - 1] = 'K';
-	p[0] = 'S';
-}
-
-
 int _tmain()
 {
+	vtab_CountProc("test");
 
-	Function1();
-	Function2();
+	char *v = vtab_GetColValue("test", 1, 1);
+
+	vtab_WriteColValue("test", "2wartosc testowa2", 1, 1);
+
+	char *v2 = vtab_GetColValue("test", 1, 1);
 
 	HANDLE hFile;
 	HANDLE hMapFile;
@@ -51,10 +48,70 @@ int _tmain()
 
 	Context c(TEXT("C:\\Temp"));
 
-	Set<row> product = c.get<row>(TEXT("product"));
+	
 	Set<row> contact = c.get<row>(TEXT("contact"));
 
+	Set<row> product = c.get<row>(TEXT("product"));
+
 	row p1;
+
+	time_t t1, t2;
+
+	printf_s("przebieg1: start.\n");
+
+
+	char tbuf[512];
+	time(&t1);
+
+	for (int i = 0; i < 500000; i++) {
+		
+		//printf_s("%d (%d) %s, %s.\n", i, product[i].id, product[i].str1, product[i].str6);
+		//_tprintf(TEXT("%d (%d) .\n"), i, product[i].id, p1.str1, p1.str6);
+
+		int a = product[i].id;
+		
+		char *b = product[i].str1;
+		char *c = product[i].str6;
+
+		sprintf_s(tbuf, "[%s][%s]", b, c);
+	}
+	time(&t2);
+
+	int seconds = difftime(t2, t1);
+
+	printf_s("czas: %d.\n", seconds);
+
+
+	printf_s("przebieg2: start.\n");
+	time(&t1);
+	for (int i = 0; i < 500000; i++) {
+
+		//printf_s("%d (%d) %s, %s.\n", i, product[i].id, product[i].str1, product[i].str6);
+		//_tprintf(TEXT("%d (%d) .\n"), i, product[i].id, p1.str1, p1.str6);
+
+		int a = product[i].id;
+		char *b = product[i].str1;
+		char *c = product[i].str6;
+
+		sprintf_s(tbuf, "[%s][%s]", b, c);
+	}
+	time(&t2);
+
+	seconds = difftime(t2, t1);
+
+	printf_s("czas: %d.\n", seconds);
+
+	for (int i = 0; i < 500000; i++) {
+		//printf_s(": %d\n", i);
+		p1.id = i +1;
+		p1.lp = i;
+		sprintf_s(p1.str1, "1: a %d plus %d is [%d]", i + 1, i, i);
+		sprintf_s(p1.str6, "6: a %d plus %d is [%d]", i + 1, i, i);
+
+		
+
+		product[i] = p1;
+	}
 
 	p1.id = 1;
 	p1.lp = 0;
@@ -85,72 +142,6 @@ int _tmain()
 	product[137448] = p1;
 
 
-
-	hFile = CreateFile(szName
-		, GENERIC_READ | GENERIC_WRITE
-		, FILE_SHARE_READ | FILE_SHARE_WRITE
-		, NULL
-		, OPEN_ALWAYS
-		, FILE_ATTRIBUTE_NORMAL
-		, NULL
-	);
-
-	hMapFile = CreateFileMapping(hFile, NULL, PAGE_READWRITE, 0, BUF_SIZE, (LPCWSTR)"FILEMEM");
-
-	if (hMapFile == NULL)
-	{
-		_tprintf(TEXT("Could not open file mapping object (%d).\n"),
-			GetLastError());
-		return 1;
-	}
-
-	pBuf = (row*)MapViewOfFile(hMapFile, // handle to map object
-		FILE_MAP_ALL_ACCESS,  // read/write permission
-		0,
-		0,
-		MAP_SIZE);
-
-	if (pBuf == NULL)
-	{
-		_tprintf(TEXT("Could not map view of file (%d).\n"),
-			GetLastError());
-
-		CloseHandle(hMapFile);
-
-		return 1;
-	}
-
-	int max = BUF_SIZE / sizeof(row);
-
-	row a;
-	a.id = 5;
-	a.lp = 1;
-	strcpy_s(a.str1, "to jest tekst 1");
-	strcpy_s(a.str2, "to jest tekst 2");
-	strcpy_s(a.str3, "to jest tekst 3");
-
-	pBuf[0] = a;
-	pBuf[1] = a;
-	pBuf[2] = a;
-	pBuf[500] = a;
-	pBuf[1500] = a;
-	pBuf[100000] = a;
-
-	char *t = (char*)pBuf;
-
-	char *t2 = t + sizeof(a);
-
-	char *t3 = t + MAP_SIZE - sizeof(row);
-
-	row *r1 = (row*)t3;
-
-	*r1 = a;
-
-	//MessageBox(NULL, pBuf, TEXT("Process2"), MB_OK);
-
-	UnmapViewOfFile(pBuf);
-
-	CloseHandle(hMapFile);
 
 	return 0;
 }

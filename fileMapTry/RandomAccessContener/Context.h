@@ -6,12 +6,20 @@
 
 using namespace std;
 
+struct key_comparer
+{
+	bool operator()(std::wstring a, std::wstring b) const
+	{
+		return _wcsicmp(a.c_str(), b.c_str()) < 0;
+	}
+};
+
 class __declspec(dllexport) Context
 {
 private:
 	LPCWSTR path;
 
-	map<LPCWSTR, void*> sets;
+	map<LPCWSTR, void*, key_comparer> sets;
 
 public:
 	Context(LPCWSTR path);

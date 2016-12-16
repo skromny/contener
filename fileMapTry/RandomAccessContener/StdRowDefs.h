@@ -16,86 +16,40 @@ typedef struct
 	int reserved4;
 
 	char reserved[1024];
+
 } Header;
 
 typedef struct 
 {
 	int index;
 	
-	char column1[512];
-	char column2[512];
-	char column3[512];
-	char column4[512];
-	char column5[512];
-} TinyRow5Cols;
+	char column[15][256];
+
+} TinyRow15Cols;
 
 typedef struct
 {
 	int index;
 
-	char column1[1024];
-	char column2[1024];
-	char column3[1024];
-	char column4[1024];
-	char column5[1024];
-	char column6[1024];
-	char column7[1024];
-	char column8[1024];
-} SmallRow8Cols;
+	char column[15][512];
+
+} SmalRow15Cols;
 
 typedef struct
 {
 	int index;
 
-	char column1[2048];
-	char column2[2048];
-	char column3[2048];
-	char column4[2048];
-	char column5[2048];
-	char column6[2048];
-	char column7[2048];
-	char column8[2048];
-} StandardRow8Cols;
+	char column[10][1024];
+} Std1KRow10Cols;
 
 typedef struct
 {
 	int index;
 
-	char column1[2048];
-	char column2[2048];
-	char column3[2048];
-	char column4[2048];
-	char column5[2048];
-	char column6[2048];
-	char column7[2048];
-	char column8[2048];
-	char column9[2048];
-	char column10[2048];
-	char column10[2048];
-} StandardRow10Cols;
+	char column[8][2048];
 
-typedef struct
-{
-	int index;
+} Std2KRow8Cols;
 
-	char column1[4096];
-	char column2[4096];
-	char column3[4096];
-	char column4[4096];
-} BigRow4Cols;
 
-typedef struct
-{
-	int index;
-
-	char column1[4096];
-	char column2[4096];
-	char column3[4096];
-	char column4[4096];
-	char column5[4096];
-	char column6[4096];
-	char column7[4096];
-	char column8[4096];
-} BigRow8Cols;
 
 

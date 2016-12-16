@@ -21,7 +21,14 @@ SetUtils::~SetUtils()
 {
 }
 
-void SetUtils::concatStrings(LPCWSTR s1, LPCWSTR s2, LPCWSTR sep, TCHAR *to) {
+wchar_t* SetUtils::ConvertCharArrayToLPCWSTR(const char* charArray)
+{
+	wchar_t* wString = new wchar_t[4096];
+	MultiByteToWideChar(CP_ACP, 0, charArray, -1, wString, 4096);
+	return wString;
+}
+
+void SetUtils::ConcatStrings(LPCWSTR s1, LPCWSTR s2, LPCWSTR sep, TCHAR *to) {
 
 	StringCchCopy(to, MAX_PATH, s1);
 	StringCchCat(to, MAX_PATH, sep);
@@ -49,13 +56,35 @@ vector<FileDesc> SetUtils::LoadFiles(LPCWSTR path, LPCWSTR name)
 			_tprintf(TEXT("  %s  \n"), data.cFileName);
 			
 			TCHAR szFullName[MAX_PATH];
-			concatStrings(path, data.cFileName, TEXT("\\"), szFullName);
+			ConcatStrings(path, data.cFileName, TEXT("\\"), szFullName);
 			result.push_back(FileDesc(szFullName));
 
 		} while (FindNextFile(hFind, &data));
 	
 		FindClose(hFind);
 
+	}
+	else
+	{
+		TCHAR szFullName[MAX_PATH];
+		for (int i = 0; i < 32; i++)
+		{	
+			swprintf_s(szFullName, TEXT("%s\\%s%02d.mnc"), path, name, i + 1);
+			HANDLE file = CreateFile(szFullName,    // name of the file
+				GENERIC_WRITE, // open for writing
+				0,             // sharing mode, none in this case
+				0,             // use default security descriptor
+				CREATE_ALWAYS, // overwrite if exists
+				FILE_ATTRIBUTE_NORMAL,
+				0);
+
+			if (file != INVALID_HANDLE_VALUE)
+			{
+				CloseHandle(file);
+
+				result.push_back(FileDesc(szFullName));
+			}
+		}
 	}
 
 	return result;

@@ -13,12 +13,8 @@ FileDesc::FileDesc(LPCWSTR path)
 	);
 
 	this->hMapFile = CreateFileMapping(hFile, NULL, PAGE_READWRITE, 0, BUF_SIZE, NULL);
-
-	this->pBuffer = MapViewOfFile(hMapFile, // handle to map object
-		FILE_MAP_ALL_ACCESS,  // read/write permission
-		0,
-		0,
-		MAP_SIZE);
+	this->pHeader = NULL;
+	this->pBuffer = NULL;
 }
 
 FileDesc::~FileDesc() 
@@ -26,7 +22,42 @@ FileDesc::~FileDesc()
 
 }
 
+Header* FileDesc::GetHeader()
+{
+	if (this->pHeader == NULL) 
+	{
+		this->pHeader = (Header*)MapViewOfFile(hMapFile, // handle to map object
+			FILE_MAP_ALL_ACCESS,  // read/write permission
+			0,
+			0,
+			sizeof(Header));
+		DWORD error = GetLastError();
+	}
+
+	return this->pHeader;
+}
+
 LPVOID FileDesc::GetBuffer()
 {
-	return this->pBuffer;
+	if (this->pBuffer == NULL)
+	{
+		this->pBuffer = (Header*)MapViewOfFile(hMapFile, // handle to map object
+			FILE_MAP_ALL_ACCESS,  // read/write permission
+			0,
+			0,
+			MAP_SIZE);
+		DWORD error = GetLastError();
+
+		this->pData = ((char*)this->pBuffer) + sizeof(Header);
+	}
+
+	return this->pData;
 }
+
+void FileDesc::ReleaseBuffer()
+{
+	UnmapViewOfFile(this->pBuffer);
+	this->pBuffer = NULL;
+	this->pData = NULL;
+}
+

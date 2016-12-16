@@ -16,7 +16,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	{
 	case DLL_PROCESS_ATTACH:
 	case DLL_THREAD_ATTACH:
-		CONTEXTS.push_back(Context(TEXT(".")));
+		CONTEXTS.push_back(Context(TEXT("C:\\Menerva")));
 		break;
 	case DLL_THREAD_DETACH:
 	case DLL_PROCESS_DETACH:

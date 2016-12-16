@@ -19,7 +19,9 @@ public:
 	SetUtils();
 	virtual ~SetUtils();
 
-	static void concatStrings(LPCWSTR s1, LPCWSTR s2, LPCWSTR sep, TCHAR *to);
+	static wchar_t *ConvertCharArrayToLPCWSTR(const char* charArray);
+
+	static void ConcatStrings(LPCWSTR s1, LPCWSTR s2, LPCWSTR sep, TCHAR *to);
 	
 	static vector<FileDesc> LoadFiles(LPCWSTR path, LPCWSTR name);
 };

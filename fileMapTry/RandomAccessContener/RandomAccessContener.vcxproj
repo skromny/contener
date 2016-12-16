@@ -23,6 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>RandomAccessContener</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>RandomAccessContainer</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -171,7 +172,7 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="FileDesc.cpp" />
-    <ClCompile Include="RandomAccessContener.cpp" />
+    <ClCompile Include="RandomAccessContainer.cpp" />
     <ClCompile Include="Set.cpp" />
     <ClCompile Include="SetUtils.cpp" />
     <ClCompile Include="stdafx.cpp" />

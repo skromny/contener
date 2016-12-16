@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FileDesc.h"
+#include "StdRowDefs.h"
 #include <string>
 #include <vector>
 
@@ -18,7 +19,7 @@ public:
 		files = SetUtils::LoadFiles(path, name);
 
 		//137447
-		maxCount = BUF_SIZE / sizeof(T);
+		maxCount = (BUF_SIZE - sizeof(Header)) / sizeof(T);
 	}
 	virtual ~Set() {
 	}
@@ -30,16 +31,56 @@ public:
 
 	inline T& GetItem(const int index)
 	{
+		int idx = index / maxCount;
+
+		if ((this->index > 0) && (this->index != idx)) 
+		{
+			files[this->index].ReleaseBuffer();
+		}
+
+		Header *header = files[0].GetHeader();
 		T* buffer = (T*)files[index / maxCount].GetBuffer();
+
+		this->index = idx;
+		
+		if(header->count < index + 1)
+			header->count = index + 1;
+
+		if(header->last < index)
+			header->last = index;
+
+		if (header->first > index)
+			header->first = index;
 
 		return buffer[index % maxCount];
 	}
 
 	void SetItem(const int index, T& item)
 	{
+		if ((this->index > 0) && (this->index != idx))
+		{
+			files[this->index].ReleaseBuffer();
+		}
+
+		Header *header = files[0].GetHeader();
 		T* buffer = (T*)files[index / maxCount].GetBuffer();
 
+		if (header->count < index + 1)
+			header->count = index + 1;
+
+		if (header->last < index)
+			header->last = index;
+
+		if (header->first > index)
+			header->first = index;
+
 		memcpy(buffer[index % maxCount], item, sizeof(T));
+	}
+
+	int Count()
+	{
+		Header *header = files[0].GetHeader();
+		return header->count;
 	}
 
 private:
@@ -49,5 +90,6 @@ private:
 	int maxCount;
 
 	vector<FileDesc> files;
+	int index = -1;
 };
 
