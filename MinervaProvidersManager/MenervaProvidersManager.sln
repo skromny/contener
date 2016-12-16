@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenervaProviders.Manager", "MinervaProvidersManager\MenervaProviders.Manager.csproj", "{E397EE07-FFF3-4944-9F1F-3621D179A3DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenerwaProvider.Interface", "MinerwaProvider.Common\MenerwaProvider.Interface.csproj", "{A20FE50A-5890-47A5-94AF-18EED379E8BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tester", "Tester\Tester.csproj", "{BB5709AA-62E3-483A-941B-5A995C5F2C74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenervaProvider.Customers", "MenervaProvider.Customers\MenervaProvider.Customers.csproj", "{EAA01A74-0B4E-47F1-A889-4BF79803F37D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E397EE07-FFF3-4944-9F1F-3621D179A3DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E397EE07-FFF3-4944-9F1F-3621D179A3DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E397EE07-FFF3-4944-9F1F-3621D179A3DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E397EE07-FFF3-4944-9F1F-3621D179A3DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A20FE50A-5890-47A5-94AF-18EED379E8BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A20FE50A-5890-47A5-94AF-18EED379E8BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A20FE50A-5890-47A5-94AF-18EED379E8BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A20FE50A-5890-47A5-94AF-18EED379E8BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB5709AA-62E3-483A-941B-5A995C5F2C74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB5709AA-62E3-483A-941B-5A995C5F2C74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB5709AA-62E3-483A-941B-5A995C5F2C74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB5709AA-62E3-483A-941B-5A995C5F2C74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAA01A74-0B4E-47F1-A889-4BF79803F37D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAA01A74-0B4E-47F1-A889-4BF79803F37D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAA01A74-0B4E-47F1-A889-4BF79803F37D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAA01A74-0B4E-47F1-A889-4BF79803F37D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
