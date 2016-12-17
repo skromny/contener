@@ -14,11 +14,13 @@
 
 #pragma comment(lib, "user32.lib")
 
-#define BUF_SIZE 0x80000000
-#define MAP_SIZE 0x80000000
+//#define BUF_SIZE 0x80000000
+//#define MAP_SIZE 0x80000000
 
 TCHAR szName[] = TEXT("C:\\testmapa.pgf");
 
+
+//przyk³adowa struktura organizacji rekordu w zbiorze (Set)
 struct row 
 {
 	int id;
@@ -32,31 +34,35 @@ struct row
 	char str6[8192];
 };
 
+
+
 int _tmain()
 {
-	vtab_CountProc("test");
+	//vtab_init("D:\\Menerwa\dane");
 
-	char *v = vtab_GetColValue("test", 1, 1);
+	//int size = vtab_CountProc("test");
 
-	vtab_WriteColValue("test", "2wartosc testowa2", 1, 1);
+	//char *v = vtab_GetColValue("test", 1, 1);
 
-	char *v2 = vtab_GetColValue("test", 1, 1);
+	//vtab_WriteColValue("test", "2wartosc testowa2", 1, 1);
 
-	HANDLE hFile;
-	HANDLE hMapFile;
-	row* pBuf;
+	//char *v2 = vtab_GetColValue("test", 1, 1);
 
+	//w jakim folderze przechowywane s¹/bêd¹ dane (zbiory - Set)
 	Context c(TEXT("C:\\Temp"));
-
 	
-	Set<row> contact = c.get<row>(TEXT("contact"));
+	//Set<row> contact = c.get<row>(TEXT("contact"));
 
+	//otwórz zbiór o nazwie product i zmapuj go na strukturê row
 	Set<row> product = c.get<row>(TEXT("product"));
 
 	row p1;
 
 	time_t t1, t2;
 
+
+
+	//Odczyt 500K wierszy ze zbioru
 	printf_s("przebieg1: start.\n");
 
 
@@ -65,13 +71,20 @@ int _tmain()
 
 	for (int i = 0; i < 500000; i++) {
 		
-		//printf_s("%d (%d) %s, %s.\n", i, product[i].id, product[i].str1, product[i].str6);
-		//_tprintf(TEXT("%d (%d) .\n"), i, product[i].id, p1.str1, p1.str6);
-
+		//Tak ----------------
 		int a = product[i].id;
-		
+
 		char *b = product[i].str1;
 		char *c = product[i].str6;
+
+
+		//lub tak ----------------
+		//row& data = product[i];
+
+		//int a = data.id;
+		//
+		//char *b = data.str1;
+		//char *c = data.str6;
 
 		sprintf_s(tbuf, "[%s][%s]", b, c);
 	}
@@ -86,14 +99,16 @@ int _tmain()
 	time(&t1);
 	for (int i = 0; i < 500000; i++) {
 
-		//printf_s("%d (%d) %s, %s.\n", i, product[i].id, product[i].str1, product[i].str6);
-		//_tprintf(TEXT("%d (%d) .\n"), i, product[i].id, p1.str1, p1.str6);
+		//tak te¿ mo¿na
+		row data = product[i];
 
-		int a = product[i].id;
-		char *b = product[i].str1;
-		char *c = product[i].str6;
+		int a = data.id;
+		char *b = data.str1;
+		char *c = data.str6;
 
 		sprintf_s(tbuf, "[%s][%s]", b, c);
+
+		//printf_s(tbuf);
 	}
 	time(&t2);
 
@@ -101,14 +116,15 @@ int _tmain()
 
 	printf_s("czas: %d.\n", seconds);
 
-	for (int i = 0; i < 500000; i++) {
-		//printf_s(": %d\n", i);
-		p1.id = i +1;
-		p1.lp = i;
-		sprintf_s(p1.str1, "1: a %d plus %d is [%d]", i + 1, i, i);
-		sprintf_s(p1.str6, "6: a %d plus %d is [%d]", i + 1, i, i);
 
-		
+
+	//zapisujemy kolejno 500K rekordów
+	for (int i = 499999; i >= 0; i--) {
+
+		p1.id = i + 1;
+		p1.lp = i;
+		sprintf_s(p1.str1, "rev 1: a %d plus %d is [%d]", i + 1, i, i);
+		sprintf_s(p1.str6, "rev 6: a %d plus %d is [%d]", i + 1, i, i);
 
 		product[i] = p1;
 	}

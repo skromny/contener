@@ -3,9 +3,11 @@
 
 /*
 	Context - klasa zawierajaca sety (definicje plików)
-	kontekst zawiera mape setow
+	W windows jest to jeden konkretny folder
+	kontekst zawiera mape setow 
 	
-	set to definicja opsujaca plik i zawierajca w sobie wszystko co potrzebne do mapowania go w pamiêæ
+	set to definicja opsujaca zbior danych oraz pliki przechowujace te dane...
+	zawiera w sobie wszystko co potrzebne do mapowania plików  go w pamiêæ
 
 */
 
@@ -38,11 +40,53 @@ __declspec(dllexport) char* __cdecl vtab_GetColValue(char *_NAME, int ColNr, int
 	return set[RowKey].column[ColNr];
 }
 
+__declspec(dllexport) void __cdecl vtab_Set4KRow(char *_NAME, char* value, int RowKey)
+{
+	wprintf(L"vtab_Set4KRow\n");
+	Context& c = CONTEXTS[0];
+
+	Set<RawData4K>& set = c.get<RawData4K>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
+	memcpy_s(&set[RowKey], sizeof(RawData4K), value, sizeof(RawData4K));
+}
+
+__declspec(dllexport) void __cdecl vtab_Set8KRow(char *_NAME, char* value, int RowKey)
+{
+	wprintf(L"vtab_Set4KRow\n");
+	Context& c = CONTEXTS[0];
+
+	Set<RawData8K>& set = c.get<RawData8K>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
+	memcpy_s(&set[RowKey], sizeof(RawData8K), value, sizeof(RawData4K));
+}
+
+__declspec(dllexport) char* __cdecl vtab_Get4KRow(char *_NAME, int RowKey)
+{
+	wprintf(L"vtab_Get4KRow\n");
+
+	Context& c = CONTEXTS[0];
+
+	Set<RawData4K>& set = c.get<RawData4K>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
+
+	return (char*)&set[RowKey];
+}
+
+__declspec(dllexport) char* __cdecl vtab_Get8KRow(char *_NAME, int RowKey)
+{
+	wprintf(L"vtab_Get8KRow\n");
+
+	Context& c = CONTEXTS[0];
+
+	Set<RawData8K>& set = c.get<RawData8K>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
+
+	return (char*)&set[RowKey];
+}
+
 __declspec(dllexport) void __cdecl vtab_WriteColValue(char *_NAME, char *value, int ColNr, int RowKey)
 {
 	wprintf(L"vtab_WriteColValue\n");
 	Context& c = CONTEXTS[0];
 
+
+	//Za³ozenie ¿e kazdy wiersz jest zdefiniowany w strukturze TinyRow15Cols
 	Set<TinyRow15Cols>& set = c.get<TinyRow15Cols>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
 	strcpy_s(set[RowKey].column[ColNr], value);
 }
@@ -50,6 +94,13 @@ __declspec(dllexport) void __cdecl vtab_WriteColValue(char *_NAME, char *value, 
 __declspec(dllexport) char* __cdecl vtab_GetSortedValue(char *_NAME, int ColNr, int Pos, int &Key)
 {
 	wprintf(L"vtab_GetSortedValue\n");
+
+	return NULL;
+}
+
+__declspec(dllexport) char* __cdecl vtab_GetEqualPosListProc(char *_NAME, int ColNr, char *_EqualStr)
+{
+	wprintf(L"vtab_GetEqualPosListProc\n");
 
 	return NULL;
 }

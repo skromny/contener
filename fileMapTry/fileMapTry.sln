@@ -5,9 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fileMapTry", "fileMapTry\fileMapTry.vcxproj", "{F88B6BF5-EBB8-446E-9378-724EC4001832}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32Project1", "Win32Project1\Win32Project1.vcxproj", "{86068857-B52E-41CF-B259-3604DFFA77FD}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RandomAccessContener", "RandomAccessContainer\RandomAccessContainer.vcxproj", "{4839A07B-FBC6-4780-9537-EF68B890D105}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RandomAccessContainer", "RandomAccessContainer\RandomAccessContainer.vcxproj", "{4839A07B-FBC6-4780-9537-EF68B890D105}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +23,6 @@ Global
 		{F88B6BF5-EBB8-446E-9378-724EC4001832}.Release|x64.Build.0 = Release|x64
 		{F88B6BF5-EBB8-446E-9378-724EC4001832}.Release|x86.ActiveCfg = Release|Win32
 		{F88B6BF5-EBB8-446E-9378-724EC4001832}.Release|x86.Build.0 = Release|Win32
-		{86068857-B52E-41CF-B259-3604DFFA77FD}.Debug|x64.ActiveCfg = Debug|x64
-		{86068857-B52E-41CF-B259-3604DFFA77FD}.Debug|x64.Build.0 = Debug|x64
-		{86068857-B52E-41CF-B259-3604DFFA77FD}.Debug|x86.ActiveCfg = Debug|Win32
-		{86068857-B52E-41CF-B259-3604DFFA77FD}.Debug|x86.Build.0 = Debug|Win32
-		{86068857-B52E-41CF-B259-3604DFFA77FD}.Release|x64.ActiveCfg = Release|x64
-		{86068857-B52E-41CF-B259-3604DFFA77FD}.Release|x64.Build.0 = Release|x64
-		{86068857-B52E-41CF-B259-3604DFFA77FD}.Release|x86.ActiveCfg = Release|Win32
-		{86068857-B52E-41CF-B259-3604DFFA77FD}.Release|x86.Build.0 = Release|Win32
 		{4839A07B-FBC6-4780-9537-EF68B890D105}.Debug|x64.ActiveCfg = Debug|x64
 		{4839A07B-FBC6-4780-9537-EF68B890D105}.Debug|x64.Build.0 = Debug|x64
 		{4839A07B-FBC6-4780-9537-EF68B890D105}.Debug|x86.ActiveCfg = Debug|Win32

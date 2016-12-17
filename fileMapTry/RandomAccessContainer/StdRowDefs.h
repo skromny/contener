@@ -50,6 +50,17 @@ typedef struct
 
 } Std2KRow8Cols;
 
+typedef struct
+{
+	char data[4096];
+
+} RawData4K;
+
+typedef struct
+{
+	char data[8192];
+
+} RawData8K;
 
 
 
