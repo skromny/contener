@@ -12,6 +12,8 @@
 #include "rac.h"
 #include <time.h>
 
+#include "QuickSort.h"
+
 #pragma comment(lib, "user32.lib")
 
 //#define BUF_SIZE 0x80000000
@@ -35,9 +37,12 @@ struct row
 };
 
 
+int random[] = { 4, 2, 1, 3, 8, 5, 7, 6 };
+
 
 int _tmain()
 {
+	QuickSort::DoSort<int>(random, 0, 8);
 	//vtab_init("D:\\Menerwa\dane");
 
 	//int size = vtab_CountProc("test");
@@ -72,19 +77,19 @@ int _tmain()
 	for (int i = 0; i < 500000; i++) {
 		
 		//Tak ----------------
-		int a = product[i].id;
+		//int a = product[i].id;
 
-		char *b = product[i].str1;
-		char *c = product[i].str6;
+		//char *b = product[i].str1;
+		//char *c = product[i].str6;
 
 
 		//lub tak ----------------
-		//row& data = product[i];
+		row& data = product[i];
 
-		//int a = data.id;
-		//
-		//char *b = data.str1;
-		//char *c = data.str6;
+		int a = data.id;
+		
+		char *b = data.str1;
+		char *c = data.str6;
 
 		sprintf_s(tbuf, "[%s][%s]", b, c);
 	}
@@ -117,7 +122,7 @@ int _tmain()
 	printf_s("czas: %d.\n", seconds);
 
 
-
+	time(&t1);
 	//zapisujemy kolejno 500K rekordów
 	for (int i = 499999; i >= 0; i--) {
 
@@ -128,6 +133,11 @@ int _tmain()
 
 		product[i] = p1;
 	}
+
+	time(&t2);
+	seconds = difftime(t2, t1);
+
+	printf_s("czas: %d.\n", seconds);
 
 	p1.id = 1;
 	p1.lp = 0;

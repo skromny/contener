@@ -34,8 +34,6 @@
 	W wersji 32bity mo¿liwa jest praca z jednym kontekstem i jednym zbiorem
 */
 
-vector<Context> CONTEXTS;
-
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved

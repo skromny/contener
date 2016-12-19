@@ -2,6 +2,7 @@
 
 #include "FileDesc.h"
 #include "StdRowDefs.h"
+#include "QuickSort.h"
 #include <string>
 #include <vector>
 
@@ -81,6 +82,10 @@ public:
 	{
 		Header *header = files[0].GetHeader();
 		return header->count;
+	}
+
+	void Sort() {
+		
 	}
 
 private:

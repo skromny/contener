@@ -8,7 +8,7 @@ using namespace std;
 
 struct key_comparer
 {
-	bool operator()(std::wstring a, std::wstring b) const
+	bool operator()(wstring a, wstring b) const
 	{
 		return _wcsicmp(a.c_str(), b.c_str()) < 0;
 	}

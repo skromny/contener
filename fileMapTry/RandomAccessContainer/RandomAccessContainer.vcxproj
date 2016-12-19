@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="Context.h" />
     <ClInclude Include="FileDesc.h" />
+    <ClInclude Include="QuickSort.h" />
     <ClInclude Include="rac.h" />
     <ClInclude Include="Set.h" />
     <ClInclude Include="SetUtils.h" />
@@ -172,6 +173,7 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="FileDesc.cpp" />
+    <ClCompile Include="QuickSort.cpp" />
     <ClCompile Include="RandomAccessContainer.cpp" />
     <ClCompile Include="Set.cpp" />
     <ClCompile Include="SetUtils.cpp" />

@@ -19,88 +19,93 @@
 #include "SetUtils.h"
 #include "rac.h"
 
-__declspec(dllexport) int __cdecl vtab_CountProc(char *_NAME)
+extern "C"
 {
-	wprintf(L"vtab_CountProc\n");
-	Context& c = CONTEXTS[0];
+	vector<Context> CONTEXTS;
 
-	Set<TinyRow15Cols>& set = c.get<TinyRow15Cols>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
+	__declspec(dllexport) int __cdecl vtab_CountProc(char *_NAME)
+	{
+		wprintf(L"vtab_CountProc\n");
+		Context& c = CONTEXTS[0];
 
-	return set.Count();
-}
+		Set<TinyRow15Cols>& set = c.get<TinyRow15Cols>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
 
-__declspec(dllexport) char* __cdecl vtab_GetColValue(char *_NAME, int ColNr, int RowKey)
-{
-	wprintf(L"vtab_GetColValue\n");
+		return set.Count();
+	}
 
-	Context& c = CONTEXTS[0];
+	__declspec(dllexport) char* __cdecl vtab_GetColValue(char *_NAME, int ColNr, int RowKey)
+	{
+		wprintf(L"vtab_GetColValue\n");
 
-	Set<TinyRow15Cols>& set = c.get<TinyRow15Cols>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
+		Context& c = CONTEXTS[0];
 
-	return set[RowKey].column[ColNr];
-}
+		Set<TinyRow15Cols>& set = c.get<TinyRow15Cols>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
 
-__declspec(dllexport) void __cdecl vtab_Set4KRow(char *_NAME, char* value, int RowKey)
-{
-	wprintf(L"vtab_Set4KRow\n");
-	Context& c = CONTEXTS[0];
+		return set[RowKey].column[ColNr];
+	}
 
-	Set<RawData4K>& set = c.get<RawData4K>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
-	memcpy_s(&set[RowKey], sizeof(RawData4K), value, sizeof(RawData4K));
-}
+	__declspec(dllexport) void __cdecl vtab_Set4KRow(char *_NAME, char* value, int RowKey)
+	{
+		wprintf(L"vtab_Set4KRow\n");
+		Context& c = CONTEXTS[0];
 
-__declspec(dllexport) void __cdecl vtab_Set8KRow(char *_NAME, char* value, int RowKey)
-{
-	wprintf(L"vtab_Set4KRow\n");
-	Context& c = CONTEXTS[0];
+		Set<RawData4K>& set = c.get<RawData4K>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
+		memcpy_s(&set[RowKey], sizeof(RawData4K), value, sizeof(RawData4K));
+	}
 
-	Set<RawData8K>& set = c.get<RawData8K>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
-	memcpy_s(&set[RowKey], sizeof(RawData8K), value, sizeof(RawData4K));
-}
+	__declspec(dllexport) void __cdecl vtab_Set8KRow(char *_NAME, char* value, int RowKey)
+	{
+		wprintf(L"vtab_Set4KRow\n");
+		Context& c = CONTEXTS[0];
 
-__declspec(dllexport) char* __cdecl vtab_Get4KRow(char *_NAME, int RowKey)
-{
-	wprintf(L"vtab_Get4KRow\n");
+		Set<RawData8K>& set = c.get<RawData8K>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
+		memcpy_s(&set[RowKey], sizeof(RawData8K), value, sizeof(RawData4K));
+	}
 
-	Context& c = CONTEXTS[0];
+	__declspec(dllexport) char* __cdecl vtab_Get4KRow(char *_NAME, int RowKey)
+	{
+		wprintf(L"vtab_Get4KRow\n");
 
-	Set<RawData4K>& set = c.get<RawData4K>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
+		Context& c = CONTEXTS[0];
 
-	return (char*)&set[RowKey];
-}
+		Set<RawData4K>& set = c.get<RawData4K>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
 
-__declspec(dllexport) char* __cdecl vtab_Get8KRow(char *_NAME, int RowKey)
-{
-	wprintf(L"vtab_Get8KRow\n");
+		return (char*)&set[RowKey];
+	}
 
-	Context& c = CONTEXTS[0];
+	__declspec(dllexport) char* __cdecl vtab_Get8KRow(char *_NAME, int RowKey)
+	{
+		wprintf(L"vtab_Get8KRow\n");
 
-	Set<RawData8K>& set = c.get<RawData8K>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
+		Context& c = CONTEXTS[0];
 
-	return (char*)&set[RowKey];
-}
+		Set<RawData8K>& set = c.get<RawData8K>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
 
-__declspec(dllexport) void __cdecl vtab_WriteColValue(char *_NAME, char *value, int ColNr, int RowKey)
-{
-	wprintf(L"vtab_WriteColValue\n");
-	Context& c = CONTEXTS[0];
+		return (char*)&set[RowKey];
+	}
+
+	__declspec(dllexport) void __cdecl vtab_WriteColValue(char *_NAME, char *value, int ColNr, int RowKey)
+	{
+		wprintf(L"vtab_WriteColValue\n");
+		Context& c = CONTEXTS[0];
 
 
-	//Za³ozenie ¿e kazdy wiersz jest zdefiniowany w strukturze TinyRow15Cols
-	Set<TinyRow15Cols>& set = c.get<TinyRow15Cols>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
-	strcpy_s(set[RowKey].column[ColNr], value);
-}
+		//Za³ozenie ¿e kazdy wiersz jest zdefiniowany w strukturze TinyRow15Cols
+		Set<TinyRow15Cols>& set = c.get<TinyRow15Cols>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
+		strcpy_s(set[RowKey].column[ColNr], value);
+	}
 
-__declspec(dllexport) char* __cdecl vtab_GetSortedValue(char *_NAME, int ColNr, int Pos, int &Key)
-{
-	wprintf(L"vtab_GetSortedValue\n");
+	__declspec(dllexport) char* __cdecl vtab_GetSortedValue(char *_NAME, int ColNr, int Pos, int &Key)
+	{
+		wprintf(L"vtab_GetSortedValue\n");
 
-	return NULL;
-}
+		return NULL;
+	}
 
-__declspec(dllexport) char* __cdecl vtab_GetEqualPosListProc(char *_NAME, int ColNr, char *_EqualStr)
-{
-	wprintf(L"vtab_GetEqualPosListProc\n");
+	__declspec(dllexport) char* __cdecl vtab_GetEqualPosListProc(char *_NAME, int ColNr, char *_EqualStr)
+	{
+		wprintf(L"vtab_GetEqualPosListProc\n");
 
-	return NULL;
+		return NULL;
+	}
 }
