@@ -42,7 +42,7 @@ int random[] = { 4, 2, 1, 3, 8, 5, 7, 6 };
 
 int _tmain()
 {
-	QuickSort::DoSort<int>(random, 0, 8);
+	
 	//vtab_init("D:\\Menerwa\dane");
 
 	//int size = vtab_CountProc("test");
@@ -58,8 +58,47 @@ int _tmain()
 	
 	//Set<row> contact = c.get<row>(TEXT("contact"));
 
+	srand(time(NULL));
+
 	//otwórz zbiór o nazwie product i zmapuj go na strukturê row
 	Set<row> product = c.get<row>(TEXT("product"));
+
+
+	row trow;
+
+	//zapisujemy kolejno 500K rekordów
+	//for (int i = 0; i < 100000; i++) 
+	//{
+
+	//	trow.id = i + 1;
+	//	trow.lp = i;
+	//	sprintf_s(trow.str1, "wier %d on %d", rand() % 590000 + 1, i);
+	//	product[i] = trow;
+
+	//}
+
+	//trow.id = 1;
+	//trow.lp = 1;
+	//sprintf_s(trow.str1, "wier %d x 01", rand() % 10000 + 1);
+	//product[0] = trow;
+
+	//trow.id = 2;
+	//trow.lp = 2;
+	//sprintf_s(trow.str1, "wier %d x 01", rand() % 10000 + 1);
+	//product[1] = trow;
+
+	//trow.id = 3;
+	//trow.lp = 3;
+	//sprintf_s(trow.str1, "wier %d x 01", rand() % 10000 + 1);
+	//product[2] = trow;
+
+	//trow.id = 4;
+	//trow.lp = 4;
+	//sprintf_s(trow.str1, "wier %d x 01", rand() % 10000 + 1);
+	//product[3] = trow;
+
+
+	QuickSort::DoSort<row>(product);
 
 	row p1;
 

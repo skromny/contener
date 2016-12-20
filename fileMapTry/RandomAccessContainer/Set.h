@@ -2,7 +2,7 @@
 
 #include "FileDesc.h"
 #include "StdRowDefs.h"
-#include "QuickSort.h"
+//#include "QuickSort.h"
 #include <string>
 #include <vector>
 
@@ -42,6 +42,8 @@ public:
 		Header *header = files[0].GetHeader();
 		T* buffer = (T*)files[index / maxCount].GetBuffer();
 
+		pLastBuffer = buffer;
+
 		this->index = idx;
 		
 		if(header->count < index + 1)
@@ -65,6 +67,8 @@ public:
 
 		Header *header = files[0].GetHeader();
 		T* buffer = (T*)files[index / maxCount].GetBuffer();
+		
+		pLastBuffer = buffer;
 
 		if (header->count < index + 1)
 			header->count = index + 1;
@@ -96,5 +100,7 @@ private:
 
 	vector<FileDesc> files;
 	int index = -1;
+
+	T* pLastBuffer;
 };
 
