@@ -14,6 +14,7 @@ FileDesc::FileDesc(LPCWSTR path)
 
 	this->hMapFile = CreateFileMapping(hFile, NULL, PAGE_READWRITE, 0, BUF_SIZE, NULL);
 	this->pHeader = NULL;
+	
 	this->pBuffer = NULL;
 }
 
@@ -41,7 +42,7 @@ LPVOID FileDesc::GetBuffer()
 {
 	if (this->pBuffer == NULL)
 	{
-		this->pBuffer = (Header*)MapViewOfFile(hMapFile, // handle to map object
+		this->pBuffer = MapViewOfFile(hMapFile, // handle to map object
 			FILE_MAP_ALL_ACCESS,  // read/write permission
 			0,
 			0,

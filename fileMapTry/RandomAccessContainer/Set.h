@@ -17,9 +17,12 @@ public:
 		StringCchCopy(this->path, MAX_PATH, path);
 		StringCchCopy(this->name, MAX_PATH, name);
 		
+		pBuffer = NULL;
+
 		files = SetUtils::LoadFiles(path, name);
 
-		//137447
+		pHeader = files[0].GetHeader();
+		
 		maxCount = (BUF_SIZE - sizeof(Header)) / sizeof(T);
 	}
 	virtual ~Set() {
@@ -34,52 +37,59 @@ public:
 	{
 		int idx = index / maxCount;
 
-		if ((this->index > 0) && (this->index != idx)) 
+		if ((this->index >= 0) && (this->index != idx)) 
 		{
 			files[this->index].ReleaseBuffer();
+			pBuffer = NULL;
 		}
 
-		Header *header = files[0].GetHeader();
-		T* buffer = (T*)files[index / maxCount].GetBuffer();
-
-		pLastBuffer = buffer;
-
-		this->index = idx;
+		if (pBuffer == NULL)
+		{
+			pBuffer = (T*)files[index / maxCount].GetBuffer();
+			this->index = idx;
+		}
 		
-		if(header->count < index + 1)
-			header->count = index + 1;
+		if(pHeader->count < index + 1)
+			pHeader->count = index + 1;
 
-		if(header->last < index)
-			header->last = index;
+		if(pHeader->last < index)
+			pHeader->last = index;
 
-		if (header->first > index)
-			header->first = index;
+		if (pHeader->first > index)
+			pHeader->first = index;
 
-		return buffer[index % maxCount];
+		return pBuffer[index % maxCount];
 	}
 
 	void SetItem(const int index, T& item)
 	{
-		if ((this->index > 0) && (this->index != idx))
+		int idx = index / maxCount;
+
+		if ((this->index >= 0) && (this->index != idx))
 		{
-			files[this->index].ReleaseBuffer();
+			for (int i = 0; i < files.size(); i++)
+				files[i].ReleaseBuffer();
+
+			pBuffer = NULL;
 		}
 
-		Header *header = files[0].GetHeader();
-		T* buffer = (T*)files[index / maxCount].GetBuffer();
-		
-		pLastBuffer = buffer;
+		if (pBuffer == NULL)
+		{
+			pBuffer = (T*)files[index / maxCount].GetBuffer();
+			this->index = idx;
+		}
 
-		if (header->count < index + 1)
-			header->count = index + 1;
 
-		if (header->last < index)
-			header->last = index;
+		if (pHeader->count < index + 1)
+			pHeader->count = index + 1;
 
-		if (header->first > index)
-			header->first = index;
+		if (pHeader->last < index)
+			pHeader->last = index;
 
-		memcpy(buffer[index % maxCount], item, sizeof(T));
+		if (pHeader->first > index)
+			pHeader->first = index;
+
+		memcpy(pBuffer[index % maxCount], item, sizeof(T));
 	}
 
 	int Count()
@@ -101,6 +111,7 @@ private:
 	vector<FileDesc> files;
 	int index = -1;
 
-	T* pLastBuffer;
+	Header *pHeader;
+	T* pBuffer;
 };
 

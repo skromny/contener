@@ -67,15 +67,15 @@ int _tmain()
 	row trow;
 
 	//zapisujemy kolejno 500K rekordów
-	//for (int i = 0; i < 100000; i++) 
-	//{
+	for (int i = 0; i < 40000; i++) 
+	{
 
-	//	trow.id = i + 1;
-	//	trow.lp = i;
-	//	sprintf_s(trow.str1, "wier %d on %d", rand() % 590000 + 1, i);
-	//	product[i] = trow;
+		trow.id = i + 1;
+		trow.lp = i;
+		sprintf_s(trow.str1, "wier %d on %d", (rand() + rand() + rand()) % 590000 + 1, i);
+		product[i] = trow;
 
-	//}
+	}
 
 	//trow.id = 1;
 	//trow.lp = 1;
@@ -97,7 +97,15 @@ int _tmain()
 	//sprintf_s(trow.str1, "wier %d x 01", rand() % 10000 + 1);
 	//product[3] = trow;
 
-
+	/*int ix = 0;
+	for (int i = 0; i < 10000000; i++)
+	{
+		int idx = (rand() + rand() + rand()) % 99000;
+		row& p = product[idx];
+		ix = i;
+		printf_s("%d: %s.\n", idx, p.str1);
+	}
+	printf_s("ix: %d.\n", ix);*/
 	QuickSort::DoSort<row>(product);
 
 	row p1;

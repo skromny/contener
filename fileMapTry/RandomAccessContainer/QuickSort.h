@@ -11,7 +11,7 @@ public:
 	virtual ~QuickSort();
 
 	template<class T>
-	static void DoSort(Set<T> set)
+	static void DoSort(Set<T>& set)
 	{
 		//qsort(array, r, sizeof(T), QuickSort::compare);
 		vector<int> index;
@@ -43,7 +43,7 @@ private:
 	}
 
 	template<class T>
-	static void Sort(Set<T> set, vector<int>& index, int p, int r)
+	static void Sort(Set<T>& set, vector<int>& index, int p, int r)
 	{
 		int q;
 		if (p < r)
@@ -55,12 +55,11 @@ private:
 	}
 
 	template<class T>
-	static int Partition(Set<T> set, vector<int>& index, int p, int r)
+	static int Partition(Set<T>& set, vector<int>& index, int p, int r)
 	{
-		printf_s("p: %d, i.p: %d\n", p, index[p]);
+		//printf_s("p: %d, i.p: %d\n", p, index[p]);
 		int idx = index[p];
 		T x = set[idx]; // obieramy x
-		printf_s("2");
 		int tmp;
 
 		int i = p, j = r; // i, j - indeksy w tabeli
@@ -69,20 +68,20 @@ private:
 		while (true) // petla nieskonczona - wychodzimy z niej tylko przez return j
 		{
 			
-			printf_s("3");
-			idx = index[j];
-			printf_s("j: %d, i.j: %d\n", j, idx);
-			T& z = set[index[j]];
-			printf_s("3.1");
+			//idx = index[j];
+			//printf_s("j: %d, i.j: %d\n", j, idx);
+			//T& z = set[index[j]];
+			//printf_s("3.1=>");
+			//printf_s("3.2=>%s\n", z.str1);
 			while (compare_str(set[index[j]].str1, x.str1) > 0)
 				j--;
 
-			printf_s("4");
+			//printf_s("4");
 			
 			while (compare_str(set[index[i]].str1, x.str1) < 0)
 				i++;
 
-			printf_s("5");
+			//printf_s("5");
 
 			if (i < j) // zamieniamy miejscami gdy i < j
 			{
