@@ -18,10 +18,10 @@ public:
 		for (int i = 0; i < set.Count(); i++)
 			index.push_back(i);
 		QuickSort::Sort<T>(set, index, 0, index.size() - 1);
-		for (int i = 0; i < index.size(); i++)
-		{
-			printf_s("%d : %s\n", i + 1, set[index[i]].str1);
-		}
+		//for (int i = 0; i < index.size(); i++)
+		//{
+		//	printf_s("%d : %s\n", i + 1, set[index[i]].str1);
+		//}
 	}
 
 private:

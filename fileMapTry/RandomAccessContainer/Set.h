@@ -2,7 +2,7 @@
 
 #include "FileDesc.h"
 #include "StdRowDefs.h"
-//#include "QuickSort.h"
+#include "Cache.h"
 #include <string>
 #include <vector>
 
@@ -13,19 +13,28 @@ class __declspec(dllexport) Set
 {
 public:
 
-	Set(LPCWSTR path, LPCWSTR name) {
+	Set(LPCWSTR path, LPCWSTR name) 
+	{
 		StringCchCopy(this->path, MAX_PATH, path);
 		StringCchCopy(this->name, MAX_PATH, name);
-		
-		pBuffer = NULL;
+	
+		header = SetUtils::LoadHeader(path, name);
+		pHeader = header->GetHeader();
 
 		files = SetUtils::LoadFiles(path, name);
-
-		pHeader = files[0].GetHeader();
 		
-		maxCount = (BUF_SIZE - sizeof(Header)) / sizeof(T);
+		bufferCapacity = MAP_SIZE / sizeof(T);
+		
+		int tmp = BUF_SIZE / sizeof(T);
+		tmp /= bufferCapacity;
+
+		fileCapacity = tmp * bufferCapacity;
+
 	}
-	virtual ~Set() {
+
+	virtual ~Set() 
+	{
+		delete header;
 	}
 
 	T& operator[] (const int index)
@@ -33,32 +42,89 @@ public:
 		return GetItem(index);
 	}
 
+	//inline T& GetItem(const int index)
+	//{
+	//	int idx = index / maxCount;
+
+	//	if ((this->index >= 0) && (this->index != idx)) 
+	//	{
+	//		files[this->index].ReleaseBuffer();
+	//		pBuffer = NULL;
+	//	}
+
+	//	if (pBuffer == NULL)
+	//	{
+	//		pBuffer = (T*)files[index / maxCount].GetBuffer();
+	//		this->index = idx;
+	//	}
+	//	
+	//	if(pHeader->count < index + 1)
+	//		pHeader->count = index + 1;
+
+	//	if(pHeader->last < index)
+	//		pHeader->last = index;
+
+	//	if (pHeader->first > index)
+	//		pHeader->first = index;
+
+	//	return pBuffer[index % maxCount];
+	//}
+
+
 	inline T& GetItem(const int index)
 	{
-		int idx = index / maxCount;
+		int fidx = index / fileCapacity;
+		
+		//index w pliku;
+		int tidx = index % fileCapacity;
 
-		if ((this->index >= 0) && (this->index != idx)) 
+		//index bufora w secie (co cache)
+		int bidx = index / bufferCapacity;
+		
+		//index bufora w pliku
+		int bfidx = tidx / bufferCapacity;
+
+		int didx = index % bufferCapacity;
+/*
+		buffers.Add(2, (LPVOID)2);
+
+		buffers.Add(4, (LPVOID)4);
+
+		buffers.Add(1, (LPVOID)1);
+		buffers.Add(3, (LPVOID)3);
+*/
+
+		LPVOID toRelease;
+		T *pBuffer = (T*)buffers.GetBuffer(bidx, toRelease);
+
+		if(pBuffer == NULL && toRelease == NULL)
+			printf_s("DO SPRAWDZENIA\n");
+
+		if (toRelease != NULL) 
 		{
-			files[this->index].ReleaseBuffer();
-			pBuffer = NULL;
+			++rcount;
+			FileDesc::ReleaseBuffer(toRelease);
+			printf_s("buffer released: %d,   left: %d\n", rcount, buffers.Size());
 		}
+			
 
 		if (pBuffer == NULL)
 		{
-			pBuffer = (T*)files[index / maxCount].GetBuffer();
-			this->index = idx;
+			pBuffer = (T*)files[fidx].GetBuffer(bfidx);
+			buffers.Add(bidx, pBuffer);
+			printf_s("buffer cached: %d\n", buffers.Size());
 		}
-		
-		if(pHeader->count < index + 1)
+
+		if (pHeader->count < index + 1)
 			pHeader->count = index + 1;
 
-		if(pHeader->last < index)
+		if (pHeader->last < index)
 			pHeader->last = index;
 
 		if (pHeader->first > index)
 			pHeader->first = index;
 
-		return pBuffer[index % maxCount];
+		return pBuffer[didx];
 	}
 
 	void SetItem(const int index, T& item)
@@ -94,8 +160,7 @@ public:
 
 	int Count()
 	{
-		Header *header = files[0].GetHeader();
-		return header->count;
+		return pHeader->count;
 	}
 
 	void Sort() {
@@ -106,12 +171,19 @@ private:
 	TCHAR name[MAX_PATH];
 	TCHAR path[MAX_PATH];
 
-	int maxCount;
+	SYSTEM_INFO sysInfo;
 
+	int granularity;
+	int bufferCapacity;
+	int fileCapacity;
+
+	FileDesc *header;
 	vector<FileDesc> files;
-	int index = -1;
+
+	int rcount = 0;
 
 	Header *pHeader;
-	T* pBuffer;
+	
+	Cache buffers = Cache(8);
 };
 

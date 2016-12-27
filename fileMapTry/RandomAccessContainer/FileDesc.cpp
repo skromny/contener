@@ -1,7 +1,9 @@
 
 #include "FileDesc.h"
 
-FileDesc::FileDesc(LPCWSTR path)
+FileDesc::FileDesc(LPCWSTR path) : FileDesc(path, false) { }
+
+FileDesc::FileDesc(LPCWSTR path, bool header)
 {
 	this->hFile = CreateFile(path
 		, GENERIC_READ | GENERIC_WRITE
@@ -12,10 +14,7 @@ FileDesc::FileDesc(LPCWSTR path)
 		, NULL
 	);
 
-	this->hMapFile = CreateFileMapping(hFile, NULL, PAGE_READWRITE, 0, BUF_SIZE, NULL);
-	this->pHeader = NULL;
-	
-	this->pBuffer = NULL;
+	this->hMapFile = CreateFileMapping(hFile, NULL, PAGE_READWRITE, 0, (header ? sizeof(Header) : BUF_SIZE), NULL);
 }
 
 FileDesc::~FileDesc() 
@@ -23,42 +22,60 @@ FileDesc::~FileDesc()
 
 }
 
+//Header* FileDesc::GetHeader()
+//{
+//	if (this->pHeader == NULL) 
+//	{
+//		this->pHeader = (Header*)MapViewOfFile(hMapFile, // handle to map object
+//			FILE_MAP_ALL_ACCESS,  // read/write permission
+//			0,
+//			0,
+//			sizeof(Header));
+//		DWORD error = GetLastError();
+//	}
+//
+//	return this->pHeader;
+//}
+
 Header* FileDesc::GetHeader()
 {
-	if (this->pHeader == NULL) 
-	{
-		this->pHeader = (Header*)MapViewOfFile(hMapFile, // handle to map object
-			FILE_MAP_ALL_ACCESS,  // read/write permission
-			0,
-			0,
-			sizeof(Header));
-		DWORD error = GetLastError();
-	}
-
-	return this->pHeader;
+	return (Header*)MapViewOfFile(hMapFile, // handle to map object
+		FILE_MAP_ALL_ACCESS,  // read/write permission
+		0,
+		0,
+		sizeof(Header));
 }
 
-LPVOID FileDesc::GetBuffer()
+//LPVOID FileDesc::GetBuffer(DWORD offset)
+//{
+//	DWORD lo = offset & sysInfo.dwAllocationGranularity;
+//
+//	if (this->pBuffer == NULL)
+//	{
+//		this->pBuffer = MapViewOfFile(hMapFile, // handle to map object
+//			FILE_MAP_ALL_ACCESS,  // read/write permission
+//			0,
+//			offset - lo,
+//			MAP_SIZE);
+//		DWORD error = GetLastError();
+//
+//		this->pData = ((char*)this->pBuffer) + lo + sizeof(Header);
+//	}
+//
+//	return this->pData;
+//}
+
+LPVOID FileDesc::GetBuffer(DWORD offset)
 {
-	if (this->pBuffer == NULL)
-	{
-		this->pBuffer = MapViewOfFile(hMapFile, // handle to map object
+	return MapViewOfFile(hMapFile, // handle to map object
 			FILE_MAP_ALL_ACCESS,  // read/write permission
 			0,
-			0,
+			offset * MAP_SIZE,
 			MAP_SIZE);
-		DWORD error = GetLastError();
-
-		this->pData = ((char*)this->pBuffer) + sizeof(Header);
-	}
-
-	return this->pData;
 }
 
-void FileDesc::ReleaseBuffer()
+void FileDesc::ReleaseBuffer(LPVOID pBuffer)
 {
-	UnmapViewOfFile(this->pBuffer);
-	this->pBuffer = NULL;
-	this->pData = NULL;
+	UnmapViewOfFile(pBuffer);
 }
 
