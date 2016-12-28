@@ -8,8 +8,7 @@
 #include "StdRowDefs.h"
 
 #define BUF_SIZE 0x80000000
-#define MAP_SIZE 0x08000000
-#define BUF_CAPS 0x10
+#define MAP_SIZE 0x10000000
 
 class __declspec(dllexport) FileDesc
 {

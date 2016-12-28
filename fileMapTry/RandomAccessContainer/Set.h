@@ -42,35 +42,6 @@ public:
 		return GetItem(index);
 	}
 
-	//inline T& GetItem(const int index)
-	//{
-	//	int idx = index / maxCount;
-
-	//	if ((this->index >= 0) && (this->index != idx)) 
-	//	{
-	//		files[this->index].ReleaseBuffer();
-	//		pBuffer = NULL;
-	//	}
-
-	//	if (pBuffer == NULL)
-	//	{
-	//		pBuffer = (T*)files[index / maxCount].GetBuffer();
-	//		this->index = idx;
-	//	}
-	//	
-	//	if(pHeader->count < index + 1)
-	//		pHeader->count = index + 1;
-
-	//	if(pHeader->last < index)
-	//		pHeader->last = index;
-
-	//	if (pHeader->first > index)
-	//		pHeader->first = index;
-
-	//	return pBuffer[index % maxCount];
-	//}
-
-
 	inline T& GetItem(const int index)
 	{
 		int fidx = index / fileCapacity;
@@ -85,20 +56,9 @@ public:
 		int bfidx = tidx / bufferCapacity;
 
 		int didx = index % bufferCapacity;
-/*
-		buffers.Add(2, (LPVOID)2);
-
-		buffers.Add(4, (LPVOID)4);
-
-		buffers.Add(1, (LPVOID)1);
-		buffers.Add(3, (LPVOID)3);
-*/
 
 		LPVOID toRelease;
 		T *pBuffer = (T*)buffers.GetBuffer(bidx, toRelease);
-
-		if(pBuffer == NULL && toRelease == NULL)
-			printf_s("DO SPRAWDZENIA\n");
 
 		if (toRelease != NULL) 
 		{
@@ -107,7 +67,6 @@ public:
 			printf_s("buffer released: %d,   left: %d\n", rcount, buffers.Size());
 		}
 			
-
 		if (pBuffer == NULL)
 		{
 			pBuffer = (T*)files[fidx].GetBuffer(bfidx);
@@ -127,44 +86,9 @@ public:
 		return pBuffer[didx];
 	}
 
-	void SetItem(const int index, T& item)
-	{
-		int idx = index / maxCount;
-
-		if ((this->index >= 0) && (this->index != idx))
-		{
-			for (int i = 0; i < files.size(); i++)
-				files[i].ReleaseBuffer();
-
-			pBuffer = NULL;
-		}
-
-		if (pBuffer == NULL)
-		{
-			pBuffer = (T*)files[index / maxCount].GetBuffer();
-			this->index = idx;
-		}
-
-
-		if (pHeader->count < index + 1)
-			pHeader->count = index + 1;
-
-		if (pHeader->last < index)
-			pHeader->last = index;
-
-		if (pHeader->first > index)
-			pHeader->first = index;
-
-		memcpy(pBuffer[index % maxCount], item, sizeof(T));
-	}
-
 	int Count()
 	{
 		return pHeader->count;
-	}
-
-	void Sort() {
-		
 	}
 
 private:
@@ -183,7 +107,7 @@ private:
 	int rcount = 0;
 
 	Header *pHeader;
-	
-	Cache buffers = Cache(8);
+
+	Cache buffers = Cache(4);
 };
 

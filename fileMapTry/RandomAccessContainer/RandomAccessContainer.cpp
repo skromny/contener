@@ -19,6 +19,8 @@
 #include "SetUtils.h"
 #include "rac.h"
 
+#include "QuickSort.h"
+
 extern "C"
 {
 	vector<Context> CONTEXTS;
@@ -98,6 +100,13 @@ extern "C"
 	__declspec(dllexport) char* __cdecl vtab_GetSortedValue(char *_NAME, int ColNr, int Pos, int &Key)
 	{
 		wprintf(L"vtab_GetSortedValue\n");
+		Context& c = CONTEXTS[0];
+
+		Set<TinyRow15Cols>& set = c.get<TinyRow15Cols>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
+		
+		TinyRow15Cols& r = QuickSort::DoSort<TinyRow15Cols>(set, ColNr, Pos, Key);
+
+		return r.column[ColNr];
 
 		return NULL;
 	}

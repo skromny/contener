@@ -23,6 +23,14 @@ typedef struct
 {
 	int index;
 	
+	char column[10][256];
+
+} TinyRow10Cols;
+
+typedef struct
+{
+	int index;
+
 	char column[15][256];
 
 } TinyRow15Cols;
