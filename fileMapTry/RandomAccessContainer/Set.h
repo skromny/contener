@@ -57,6 +57,9 @@ public:
 
 		int didx = index % bufferCapacity;
 
+		if(index == 139664)
+			printf_s("--------------------------");
+
 		LPVOID toRelease;
 		T *pBuffer = (T*)buffers.GetBuffer(bidx, toRelease);
 

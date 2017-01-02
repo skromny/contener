@@ -33,6 +33,33 @@ public:
 	}
 
 	template<class T>
+	static char* Find(Set<T>& set, int col, char *toFind)
+	{
+		vector<int> index;
+		vector<char*> data;
+		char *response = new char[1024];
+		response[0] = 0;
+		for (int i = 0; i < set.Count(); i++)
+		{
+			char buf[256];
+			
+			strcpy_s(buf, 256, set[i].column[col]);
+			if (compare_str(buf, toFind) == 0)
+			{
+				index.push_back(i);
+				data.push_back(buf);
+				if (index.size() == 1)
+					sprintf_s(response, 1024, "%d", i);
+				else
+					sprintf_s(response, 1024, "%s,%d", response, i);
+			}
+		}
+
+		return response;
+	}
+
+
+	template<class T>
 	static void DoSortFile(Set<T>& set)
 	{
 		vector<int> index;
@@ -47,9 +74,9 @@ private:
 		return (*(int*)a - *(int*)b);
 	}
 
-	static int compare_wstr(const wstring *a, const wstring *b)
+	static int compare_wstr(const wchar_t *a, const wchar_t *b)
 	{
-		return _wcsicmp(a->c_str(), b->c_str());
+		return _wcsicmp(a, b);
 	}
 
 	static int compare_str(const char *a, const char *b)

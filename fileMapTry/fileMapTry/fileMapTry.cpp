@@ -51,12 +51,12 @@ int _tmain()
 
 	//w jakim folderze przechowywane s¹/bêd¹ dane (zbiory - Set)
 	
-	Context c(TEXT("C:\\Temp"));
+	//Context c(TEXT("C:\\Temp"));
 	
 	srand(time(NULL));
 
 	//otwórz zbiór o nazwie product i zmapuj go na strukturê row
-	Set<TinyRow15Cols> product = c.get<TinyRow15Cols>(TEXT("product"));
+	//Set<TinyRow15Cols> product = c.get<TinyRow15Cols>(TEXT("product"));
 
 
 	TinyRow15Cols trow;
@@ -66,7 +66,7 @@ int _tmain()
 	//for (int i = 0; i < 500000; i++) 
 	//{
 	//	trow.index = i + 1;
-	//	sprintf_s(trow.column[0], "wier %d on %d", (rand() + rand() + rand()) % 590000 + 1, i);
+	//	sprintf_s(trow.column[0], "wier %d on %d", (rand() + rand() + rand() + rand() + rand() + rand()) % 590000 + 1, 100);
 
 
 	//	//printf_s("%s\n", trow.str1);
@@ -89,7 +89,7 @@ int _tmain()
 	//	char *b = data.column[0];
 
 	//	sprintf_s(tbuf, "%d: [%s]\n", i, b);
-	//	//printf_s(tbuf);
+	//	printf_s(tbuf);
 	//}
 	time(&t2);
 
@@ -103,7 +103,22 @@ int _tmain()
 
 	time(&t1);
 	int orig;
-	TinyRow15Cols& r = QuickSort::DoSort<TinyRow15Cols>(product, 0, 0, orig);
+	//TinyRow15Cols& r = QuickSort::DoSort<TinyRow15Cols>(product, 0, 0, orig);
+
+	//QuickSort::Find<TinyRow15Cols>(product, 0, "wier 76181 on 100");
+
+	char buf[256];
+
+	for (int i = 0; i < 500000; i++) 
+	{
+		trow.index = i + 1;
+		sprintf_s(buf, "wier %d on %d", (rand() + rand() + rand() + rand() + rand() + rand()) % 590000 + 1, i);
+
+		printf_s("%s\n", buf);
+		vtab_WriteColValue("product", buf, 0, i);
+		
+	}
+	char *res = vtab_GetEqualPosListProc("product", 0, "wier 76181 on 100");
 
 	time(&t2);
 

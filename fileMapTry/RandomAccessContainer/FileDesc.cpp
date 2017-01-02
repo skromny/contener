@@ -67,11 +67,15 @@ Header* FileDesc::GetHeader()
 
 LPVOID FileDesc::GetBuffer(DWORD offset)
 {
-	return MapViewOfFile(hMapFile, // handle to map object
+	LPVOID r = MapViewOfFile(hMapFile, // handle to map object
 			FILE_MAP_ALL_ACCESS,  // read/write permission
 			0,
 			offset * MAP_SIZE,
 			MAP_SIZE);
+
+	DWORD error = GetLastError();
+
+	return r;
 }
 
 void FileDesc::ReleaseBuffer(LPVOID pBuffer)
