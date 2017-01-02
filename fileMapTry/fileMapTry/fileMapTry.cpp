@@ -111,13 +111,22 @@ int _tmain()
 
 	for (int i = 0; i < 500000; i++) 
 	{
-		trow.index = i + 1;
 		sprintf_s(buf, "wier %d on %d", (rand() + rand() + rand() + rand() + rand() + rand()) % 590000 + 1, i);
 
 		printf_s("%s\n", buf);
 		vtab_WriteColValue("product", buf, 0, i);
 		
 	}
+
+	for (int i = 0; i < 500000; i++)
+	{
+		printf_s("%s\n", buf);
+		char *b = vtab_GetColValue("product", 0, i);
+
+		sprintf_s(tbuf, "%d: [%s]\n", i, b);
+		printf_s(tbuf);
+	}
+
 	char *res = vtab_GetEqualPosListProc("product", 0, "wier 76181 on 100");
 
 	time(&t2);

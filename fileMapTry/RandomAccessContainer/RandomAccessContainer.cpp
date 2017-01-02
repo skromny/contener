@@ -24,6 +24,7 @@
 extern "C"
 {
 	vector<Context> CONTEXTS;
+	map<string, Set<TinyRow15Cols>*> SETS;
 
 	__declspec(dllexport) int __cdecl vtab_CountProc(char *_NAME)
 	{
@@ -37,7 +38,25 @@ extern "C"
 
 	__declspec(dllexport) char* __cdecl vtab_GetColValue(char *_NAME, int ColNr, int RowKey)
 	{
-		wprintf(L"vtab_GetColValue\n");
+		//wprintf(L"vtab_GetColValue\n");
+
+		map<string, Set<TinyRow15Cols>*>::iterator it = SETS.find(_NAME);
+
+		if (it == SETS.end())
+		{
+			Context& c = CONTEXTS[0];
+
+			//Za³ozenie ¿e kazdy wiersz jest zdefiniowany w strukturze TinyRow15Cols
+			Set<TinyRow15Cols>& set = c.get<TinyRow15Cols>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
+			SETS[_NAME] = &set;
+			return set[RowKey].column[ColNr];
+		}
+		else
+		{
+			Set<TinyRow15Cols> *set = it->second;
+			return (*set)[RowKey].column[ColNr];
+		}
+
 
 		Context& c = CONTEXTS[0];
 
@@ -89,12 +108,24 @@ extern "C"
 	__declspec(dllexport) void __cdecl vtab_WriteColValue(char *_NAME, char *value, int ColNr, int RowKey)
 	{
 		//wprintf(L"vtab_WriteColValue\n");
-		Context& c = CONTEXTS[0];
 
+		map<string, Set<TinyRow15Cols>*>::iterator it = SETS.find(_NAME);
 
-		//Za³ozenie ¿e kazdy wiersz jest zdefiniowany w strukturze TinyRow15Cols
-		Set<TinyRow15Cols>& set = c.get<TinyRow15Cols>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
-		strcpy_s(set[RowKey].column[ColNr], value);
+		if (it == SETS.end())
+		{
+			Context& c = CONTEXTS[0];
+
+			//Za³ozenie ¿e kazdy wiersz jest zdefiniowany w strukturze TinyRow15Cols
+			Set<TinyRow15Cols>& set = c.get<TinyRow15Cols>(SetUtils::ConvertCharArrayToLPCWSTR(_NAME));
+			strcpy_s(set[RowKey].column[ColNr], value);
+			SETS[_NAME] = &set;
+		}
+		else
+		{
+			Set<TinyRow15Cols> *set = it->second;
+			strcpy_s((*set)[RowKey].column[ColNr], value);
+		}
+
 	}
 
 	__declspec(dllexport) char* __cdecl vtab_GetSortedValue(char *_NAME, int ColNr, int Pos, int &Key)
